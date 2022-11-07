@@ -4,10 +4,17 @@ import requests
 import snowflake.connector
 from urllib.error import URLError
 
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+
 def get_fruityvice_data(this_fruit_choice):
     fruityvice_response = requests.get('https://fruityvice.com/api/fruit/'+fruit_choice)
     fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
     return fruityvice_normalized
+    
+def insert_row_snowflake(new_fruit):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("insert into fruit_load_list values ("+new_fruit+")")
+    return 'Added '+new_fruit
     
 
 streamlit.title('Testing out Streamlit')
@@ -32,7 +39,7 @@ except URLError as e:
     streamlit.error()
 
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+
 my_cur = my_cnx.cursor()
 my_cur.execute('SELECT * FROM fruit_load_list')
 my_data_rows = my_cur.fetchall()
@@ -41,3 +48,6 @@ streamlit.dataframe(my_data_rows)
 
 streamlit.text('Add new fruit')
 new_fruit = streamlit.text_input('What fruit do you want to add', 'jackfruit')
+if streamlit.button('Add a fruit to the list'):
+    back_from_function = insert_row_snowfkale(new_fruit)
+    steamlit.text(back_from_function)
