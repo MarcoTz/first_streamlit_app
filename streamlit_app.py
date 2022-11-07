@@ -29,7 +29,10 @@ streamlit.write('The user entered', fruit_choice)
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 streamlit.dataframe(fruityvice_normalized)
 
-my_cur.execute("SELECT * FROM fruit_load_list")
+my_cur.execute('SELECT * FROM fruit_load_list')
 my_data_rows = my_cur.fetchall()
-streamlit.text("Hello from Snowflake")
+streamlit.text('Hello from Snowflake')
 streamlit.dataframe(my_data_rows)
+
+streamlit.text('Add new fruit')
+new_fruit = streamlit.text_input('What fruit do you want to add', 'jackfruit')
