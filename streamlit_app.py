@@ -49,5 +49,5 @@ streamlit.dataframe(my_data_rows)
 streamlit.text('Add new fruit')
 new_fruit = streamlit.text_input('What fruit do you want to add', 'jackfruit')
 if streamlit.button('Add a fruit to the list'):
-    back_from_function = insert_row_snowfkale(new_fruit)
+    back_from_function = insert_row_snowflake(new_fruit)
     steamlit.text(back_from_function)
